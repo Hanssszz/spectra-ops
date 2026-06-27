@@ -62,7 +62,7 @@ export class AttendanceService {
         checkInTime: new Date(),
         checkInLocation: JSON.stringify({ lat: dto.latitude, lng: dto.longitude }),
         status: isWithinGeofence ? 'ON_TIME' : 'FLAGGED',
-        photoUrl: dto.photoUrl,
+        photoUrl: dto.photoUrl ?? '',
         verifiedStatus: isWithinGeofence,
       },
     });

@@ -26,7 +26,6 @@ export class IncidentService {
         status: 'OPEN',
         siteId: dto.siteId,
         reporterId: dto.reporterId,
-        reportedAt: new Date(),
         location: JSON.stringify({ lat: dto.latitude, lng: dto.longitude }),
         mediaUrls: JSON.stringify(dto.mediaUrls || []),
         involvedParties: JSON.stringify(dto.involvedParties || []),
@@ -41,7 +40,7 @@ export class IncidentService {
       severity: incident.severity,
       siteName: site.name,
       reporterName: reporter.fullName,
-      reportedAt: incident.reportedAt.toISOString(),
+      reportedAt: incident.createdAt.toISOString(),
     });
 
     return incident;
@@ -72,7 +71,7 @@ export class IncidentService {
 
     const [data, total] = await Promise.all([
       this.prisma.incident.findMany({
-        where, skip, take: limit, orderBy: { reportedAt: 'desc' },
+        where, skip, take: limit, orderBy: { createdAt: 'desc' },
         include: {
           site: { select: { id: true, name: true, client: { select: { companyName: true } } } },
           reporter: { select: { id: true, fullName: true } },

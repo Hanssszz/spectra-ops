@@ -63,6 +63,7 @@ model Guard {
   attendances            Attendance[]
   patrolLogs             PatrolLog[]
   patrolRoutes           PatrolRoute[]
+  patrolRecords          PatrolRecord[]
   incidents              Incident[]  @relation("GuardIncidents")
 }
 
@@ -149,6 +150,7 @@ model PatrolRoute {
 
   checkpoints     PatrolCheckpoint[]
   patrolLogs      PatrolLog[]
+  patrolRecords   PatrolRecord[]
 }
 
 model PatrolCheckpoint {
@@ -181,6 +183,23 @@ model PatrolLog {
   isLate         Boolean          @default(false)
   isMissed       Boolean          @default(false)
   createdAt      DateTime         @default(now())
+}
+
+model PatrolRecord {
+  id                   String      @id @default(uuid())
+  routeId              String
+  route                PatrolRoute @relation(fields: [routeId], references: [id])
+  guardId              String
+  guard                Guard       @relation(fields: [guardId], references: [id])
+  startTime            DateTime
+  endTime              DateTime?
+  status               String      // "IN_PROGRESS", "COMPLETED", "ABANDONED"
+  scannedCheckpoints   String      @default("[]") // JSON string
+  missedCheckpoints    String      @default("[]") // JSON string
+  completionPercentage Float       @default(0.0)
+  incidentReportId     String?
+  generalNotes         String?
+  createdAt            DateTime    @default(now())
 }
 
 model Incident {

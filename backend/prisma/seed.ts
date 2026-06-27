@@ -118,6 +118,7 @@ async function main() {
       data: {
         userId: user.id,
         fullName: g.name,
+        photoUrl: '',
         phone: '+2348000000000',
         address: 'Lagos, Nigeria',
         emergencyContact: '+2348000000001',
