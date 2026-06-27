@@ -47,10 +47,10 @@ export class PatrolService {
     if (!record) throw new NotFoundException('Patrol record not found');
     if (record.status === 'COMPLETED') throw new BadRequestException('Patrol already completed');
 
-    const expectedCheckpoints = record.route.checkpoints.map(cp => cp.id);
+    const expectedCheckpoints = record.route.checkpoints.map((cp: { id: string }) => cp.id);
     const scannedIds = dto.scans.map(s => s.checkpointId);
 
-    const missedCheckpoints = expectedCheckpoints.filter(id => !scannedIds.includes(id));
+    const missedCheckpoints = expectedCheckpoints.filter((id: string) => !scannedIds.includes(id));
     const completionPercentage = (scannedIds.length / expectedCheckpoints.length) * 100;
 
     return this.prisma.patrolRecord.update({

@@ -17,6 +17,7 @@ export class CloudinaryService {
         { folder: 'spectra_incidents' },
         (error, result) => {
           if (error) return reject(error);
+          if (!result) return reject(new Error('Cloudinary upload result was undefined'));
           resolve(result.secure_url);
         }
       );
